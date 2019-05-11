@@ -1,0 +1,12 @@
+.list {
+  position: absolute;
+  z-index: 99;
+  height: 90vh;
+  width: 10vw;
+  top: 5%;
+  left: 5%;
+  background-color: rgba(237, 35, 42, 0.8);
+}
+
+.listItem {
+}

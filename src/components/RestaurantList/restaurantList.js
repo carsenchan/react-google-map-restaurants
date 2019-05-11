@@ -1,0 +1,20 @@
+import React, { Component } from "react";
+import "./styles.css";
+
+export default class RestaurantList extends Component {
+  render() {
+    return (
+      <div className={"list"}>
+        {this.props.restaurants && this.props.restaurants.length > 0
+          ? this.props.restaurants.map((restaurant, index) => {
+              return (
+                <div className="listItem" key={`${index}`}>
+                  {restaurant.name}
+                </div>
+              );
+            })
+          : null}
+      </div>
+    );
+  }
+}

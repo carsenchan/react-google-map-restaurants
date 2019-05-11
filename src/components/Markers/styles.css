@@ -1,0 +1,17 @@
+.resturant-marker-container {
+  position: absolute;
+  padding: 1rem;
+  font-size: 0.9rem;
+  font-weight: bold;
+  color: white;
+  background-color: #ed232a;
+}
+
+.current-marker-container {
+  position: absolute;
+  padding: 1rem;
+  font-size: 0.9rem;
+  font-weight: bold;
+  color: white;
+  background-color: #f99d41;
+}
