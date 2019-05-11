@@ -157,6 +157,7 @@ class Map extends Component {
           <RestaurantList
             restaurants={restaurants}
             onItemClick={this.onListItemClick}
+            selectedRestaurant = {selectedRestaurant}
           />
         ) : null}
         <ToolBar reset={this.onReset} updateSorting={this.updateSorting(restaurants)}/>
