@@ -11,7 +11,6 @@ export default class RestaurantInfo extends Component {
     if (this.props.restaurant) {
       getRestaurantDetail(this.props.restaurant.place_id)
         .then(data => {
-          console.log(data.data.result);
           this.setState({ detail: data.data.result });
         })
         .catch(error => console.log(error));
@@ -25,7 +24,6 @@ export default class RestaurantInfo extends Component {
     ) {
       getRestaurantDetail(this.props.restaurant.place_id)
         .then(data => {
-          console.log(data.data.result);
           this.setState({ detail: data.data.result });
         })
         .catch(error => console.log(error));
@@ -48,8 +46,8 @@ export default class RestaurantInfo extends Component {
             Rating: {restaurant.rating} (Total No. of Rating:{" "}
             {restaurant.user_ratings_total})
           </div>
-          {"priceLevel" in restaurant ? (
-            <div>Cost: {restaurant.priceLevel}</div>
+          {"price_level" in restaurant ? (
+            <div>Cost: {restaurant.price_level}</div>
           ) : null}
           {detail && (
             <div>

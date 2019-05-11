@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import GoogleMapReact, { InfoWindow } from "google-map-react";
+import GoogleMapReact from "google-map-react";
 import { getRestaurants } from "../controllers/index";
 import RestaurantList from "./RestaurantList/restaurantList";
 import ToolBar from "./Toolbar";
@@ -27,7 +27,8 @@ class Map extends Component {
     },
     showingInfoWindow: false,
     selectedRestaurant: {},
-    activeMarker: {}
+    activeMarker: {},
+    sorting: 'name'
   };
 
   getCurrentPos = () => {
@@ -48,8 +49,7 @@ class Map extends Component {
     });
     getRestaurants(newPostion, 1000).then((data: any) => {
       const { next_page_token, results } = data.data;
-      console.log(results);
-      this.setState({ restaurants: results });
+      this.updateSorting(results)(this.state.sorting);
     });
   };
 
@@ -58,18 +58,15 @@ class Map extends Component {
   };
 
   onBoundsChange = (center, zoom, bounds, marginBounds) => {
-    console.log(center, zoom);
     this.setState({ viewingPos: center, defaultZoom: zoom }, () => {
       getRestaurants(center, 1000).then((data: any) => {
         const { next_page_token, results } = data.data;
-        console.log(results);
-        this.setState({ restaurants: results });
+        this.updateSorting(results)(this.state.sorting);
       });
     });
   };
 
   onChildPress = restaurant => () => {
-    console.log(restaurant);
     this.setState({
       selectedRestaurant: restaurant,
       showingInfoWindow: true
@@ -78,12 +75,25 @@ class Map extends Component {
 
   onListItemClick = restaurant => {
     const { lat, lng } = restaurant.geometry.location;
-    this.setState({ viewingPos: { lat, lng } });
+    this.setState({ viewingPos: { lat, lng }, selectedRestaurant: restaurant, });
   };
 
-  onChildEnter = () => {};
+  onReset = ()=>{
+    this.setState({viewingPos: this.state.currentPos});
+  }
 
-  onChildLeave = () => {};
+  updateSorting = (restaurants) => (sortBy) =>{
+    let newSorting = restaurants;
+    if(sortBy === 'name'){
+      
+      newSorting = newSorting.sort( (first, second) => {
+        return first.name.charCodeAt(0) - second.name.charCodeAt(0)
+      } );
+    } else{
+      newSorting = newSorting.sort( (first, second) => second.rating - first.rating );
+    }
+    this.setState({restaurants: newSorting, sorting: sortBy});
+  }
 
   onChildClose = () => {
     if (this.state.showingInfoWindow) {
@@ -104,7 +114,6 @@ class Map extends Component {
       defaultZoom,
       restaurants,
       showingInfoWindow,
-      activeMarker,
       selectedRestaurant
     } = this.state;
     return (
@@ -124,16 +133,18 @@ class Map extends Component {
           />
           {restaurants && restaurants.length > 0
             ? restaurants.map((restaurant, index) => {
-                return (
-                  <Marker.ResturantMarker
-                    lat={restaurant.geometry.location.lat}
-                    lng={restaurant.geometry.location.lng}
-                    key={`${index}`}
-                    restaurant={restaurant}
-                    index={index}
-                    onChildPress={this.onChildPress(restaurant)}
-                  />
-                );
+              const isActive = selectedRestaurant && selectedRestaurant.place_id === restaurant.place_id
+              return (
+                <Marker.ResturantMarker
+                  lat={restaurant.geometry.location.lat}
+                  lng={restaurant.geometry.location.lng}
+                  key={`${index}`}
+                  restaurant={restaurant}
+                  index={index}
+                  onChildPress={this.onChildPress(restaurant)}
+                  isActive ={isActive}
+                />
+              );
               })
             : null}
         </GoogleMapReact>
@@ -146,9 +157,10 @@ class Map extends Component {
           <RestaurantList
             restaurants={restaurants}
             onItemClick={this.onListItemClick}
+            selectedRestaurant = {selectedRestaurant}
           />
         ) : null}
-        <ToolBar />
+        <ToolBar reset={this.onReset} updateSorting={this.updateSorting(restaurants)}/>
       </div>
     );
   }

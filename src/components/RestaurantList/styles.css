@@ -3,7 +3,7 @@
   z-index: 99;
   height: 90vh;
   width: 20%;
-  top: 5%;
+  top: 6%;
   left: 5%;
   background-color: rgba(237, 35, 42, 0.8);
   overflow: scroll;
@@ -20,4 +20,10 @@
 .listItem:hover {
   background-color: rgba(237, 35, 42, 1);
   color: white;
+  border: 1px solid white;
+}
+
+.isActive{
+  background-color: black;
+  color: rgba(237, 35, 42, 1);
 }
