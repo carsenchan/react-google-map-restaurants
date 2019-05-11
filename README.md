@@ -1,68 +1,72 @@
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+# Nearby Restaurants with Google Map
 
-## Available Scripts
+## Installation
 
-In the project directory, you can run:
+1. Clone Project From Github (https://github.com/carsenchan/react-google-map-restaurants)
 
-### `npm start`
+   ```
+   git clone https://github.com/carsenchan/react-google-map-restaurants
+   ```
 
-Runs the app in the development mode.<br>
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+2. Since we would use google place service, the API is a must environment variable. To create project based environment variable, need to create `.env` file in the project root path.
 
-The page will reload if you make edits.<br>
-You will also see any lint errors in the console.
+   ```
+   touch .env
+   ```
 
-### `npm test`
+   Edit `.env`, set environment variable call `REACT_APP_GOOGLE_API_KEY`, like the following:
 
-Launches the test runner in the interactive watch mode.<br>
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+   ```javascript
+   REACT_APP_GOOGLE_API_KEY=// key here
+   ```
 
-### `npm run build`
+3. Install packages
 
-Builds the app for production to the `build` folder.<br>
-It correctly bundles React in production mode and optimizes the build for the best performance.
+   ```
+   yarn
+   ```
 
-The build is minified and the filenames include the hashes.<br>
-Your app is ready to be deployed!
+4. Run directly as development or run after building production
+   - If want to run as `development`
+     ```
+     yarn start
+     ```
+   - If want to run as `production`
+     ```
+     yarn build
+     yarn global add serve
+     ```
+     after finish installing `serve`, then
+     ```
+     serve -s build
+     ```
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+## Project Detail
 
-### `npm run eject`
+- Use React.js as front-end framework
+- Use google-map-react library to impletement core map component
+- Use google place API to fetch nearby restaurants' data and restaurant detail informaiton
+- Since meet a CORS problem while calling google place api, use https://cors-anywhere.herokuapp.com/ as proxy to fetch data
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
+## Requirement
 
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+Basic features:
 
-Instead, it will copy all the configuration files and the transitive dependencies (Webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
+- ~~Restaurant listing~~
+- ~~Restaurant detail~~
+- ~~Re-order items by distance and others (eg. cost or name etc.)~~
+- ~~Refreshing listing when map boundary is updated~~
 
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
+Bonus features:
 
-## Learn More
+- Responsive UI
+- Filtering by distance, cost, opening hours etc.
+- ~~Show the restaurant in the map as pins~~
+- ~~Map pin and restaurant listing panel interaction~~
+- Direction to the restaurant
+- Any other things you think are important
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+## Wakatime Link
 
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/code-splitting
-
-### Analyzing the Bundle Size
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size
-
-### Making a Progressive Web App
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app
-
-### Advanced Configuration
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/advanced-configuration
-
-### Deployment
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/deployment
-
-### `npm run build` fails to minify
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify
+Document (Readme.md) used about 30min
+https://wakatime.com/@Carsen/projects/irigshjwos?start=2019-05-05&end=2019-05-11
