@@ -7,14 +7,32 @@
   background-color: #ed232a;
   border: 1px solid white;
   box-shadow: 1px 1px rgba(255, 255, 255, 0.8);
+  width: 5vw;
 }
 
 .resturant-marker-container:hover {
   z-index: 99;
-  font-size: 0.8rem;
+  font-size: 0.9rem;
+  background-color: black;
+  color: #ed232a;
 }
+
+.resturant-marker-container-active {
+  position: absolute;
+  padding: 5px;
+  font-size: 0.9rem;
+  font-weight: bold;
+  color: #ed232a;
+  background-color: black;
+  border: 1px solid white;
+  box-shadow: 1px 1px rgba(255, 255, 255, 0.8);
+  width: 5vw;
+  z-index: 99;
+}
+
+
 .resturant-marker-text {
-  font-size: 0.6rem;
+  text-align: center;
 }
 .current-marker-container {
   position: absolute;

@@ -1,8 +1,54 @@
 .toolbar {
-  width: 100vh;
+
   position: absolute;
-  top: 2vw;
-  left: 2vw;
-  width: 95vw;
+  top: 1%;
+  left: 5%;
+  width: 90vw;
+  height: 5%;
   margin: auto;
+  background-color: rgba(237, 35, 42, 1);
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
+.toolbar-label{
+  color:white;
+  font-size: 0.8rem;
+  padding: 10px;
+}
+
+.sorting-option{
+  color: white;
+  font-weight: bold;
+  font-size: 1rem;
+  margin: 1rem;
+  cursor: pointer;
+  padding: 10px 10px; 
+}
+
+.sorting-option:hover{
+  background: rgb(145, 13, 17);
+  color: white;
+}
+
+.sorting-option-active{
+  color:  rgb(237, 35, 42);
+  background-color: black;
+}
+
+.sorting-options{
+  flex: 4.5;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
+
+
+.filter-options{
+  flex: 4.5;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
 }

@@ -5,7 +5,7 @@ const CurrentMarker = props => {
     <div
       className="current-marker-container"
       onClick={(props, marker, e) => {
-        console.log(marker);
+        
       }}
     >
       {props.text}

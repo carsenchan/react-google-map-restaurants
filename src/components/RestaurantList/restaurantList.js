@@ -13,7 +13,7 @@ export default class RestaurantList extends Component {
                   key={`${index}`}
                   onClick={() => this.props.onItemClick(restaurant)}
                 >
-                  {`${index + 1}. ${restaurant.name}`}
+                  {`${index + 1}. ${restaurant.name} (Rating: ${restaurant.rating})`}
                 </div>
               );
             })
