@@ -28,7 +28,7 @@ class Map extends Component {
     showingInfoWindow: false,
     selectedRestaurant: {},
     activeMarker: {},
-    sorting: 'name'
+    sorting: "name"
   };
 
   getCurrentPos = () => {
@@ -75,25 +75,26 @@ class Map extends Component {
 
   onListItemClick = restaurant => {
     const { lat, lng } = restaurant.geometry.location;
-    this.setState({ viewingPos: { lat, lng }, selectedRestaurant: restaurant, });
+    this.setState({ viewingPos: { lat, lng }, selectedRestaurant: restaurant });
   };
 
-  onReset = ()=>{
-    this.setState({viewingPos: this.state.currentPos});
-  }
+  onReset = () => {
+    this.setState({ viewingPos: this.state.currentPos });
+  };
 
-  updateSorting = (restaurants) => (sortBy) =>{
+  updateSorting = restaurants => sortBy => {
     let newSorting = restaurants;
-    if(sortBy === 'name'){
-      
-      newSorting = newSorting.sort( (first, second) => {
-        return first.name.charCodeAt(0) - second.name.charCodeAt(0)
-      } );
-    } else{
-      newSorting = newSorting.sort( (first, second) => second.rating - first.rating );
+    if (sortBy === "name") {
+      newSorting = newSorting.sort((first, second) => {
+        return first.name.charCodeAt(0) - second.name.charCodeAt(0);
+      });
+    } else {
+      newSorting = newSorting.sort(
+        (first, second) => second.rating - first.rating
+      );
     }
-    this.setState({restaurants: newSorting, sorting: sortBy});
-  }
+    this.setState({ restaurants: newSorting, sorting: sortBy });
+  };
 
   onChildClose = () => {
     if (this.state.showingInfoWindow) {
@@ -133,18 +134,20 @@ class Map extends Component {
           />
           {restaurants && restaurants.length > 0
             ? restaurants.map((restaurant, index) => {
-              const isActive = selectedRestaurant && selectedRestaurant.place_id === restaurant.place_id
-              return (
-                <Marker.ResturantMarker
-                  lat={restaurant.geometry.location.lat}
-                  lng={restaurant.geometry.location.lng}
-                  key={`${index}`}
-                  restaurant={restaurant}
-                  index={index}
-                  onChildPress={this.onChildPress(restaurant)}
-                  isActive ={isActive}
-                />
-              );
+                const isActive =
+                  selectedRestaurant &&
+                  selectedRestaurant.place_id === restaurant.place_id;
+                return (
+                  <Marker.ResturantMarker
+                    lat={restaurant.geometry.location.lat}
+                    lng={restaurant.geometry.location.lng}
+                    key={`${index}`}
+                    restaurant={restaurant}
+                    index={index}
+                    onChildPress={this.onChildPress(restaurant)}
+                    isActive={isActive}
+                  />
+                );
               })
             : null}
         </GoogleMapReact>
@@ -157,10 +160,13 @@ class Map extends Component {
           <RestaurantList
             restaurants={restaurants}
             onItemClick={this.onListItemClick}
-            selectedRestaurant = {selectedRestaurant}
+            selectedRestaurant={selectedRestaurant}
           />
         ) : null}
-        <ToolBar reset={this.onReset} updateSorting={this.updateSorting(restaurants)}/>
+        <ToolBar
+          reset={this.onReset}
+          updateSorting={this.updateSorting(restaurants)}
+        />
       </div>
     );
   }

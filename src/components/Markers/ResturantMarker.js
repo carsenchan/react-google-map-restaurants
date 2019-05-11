@@ -1,8 +1,10 @@
 import React from "react";
 import "./styles.css";
 const ResturantMarker = props => {
-  
-  const containerStyle = ()=>(props.isActive ? "resturant-marker-container-active": "resturant-marker-container");
+  const containerStyle = () =>
+    props.isActive
+      ? "resturant-marker-container-active"
+      : "resturant-marker-container";
 
   return (
     <div className={containerStyle()} onClick={props.onChildPress}>

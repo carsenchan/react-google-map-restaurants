@@ -4,9 +4,7 @@ const CurrentMarker = props => {
   return (
     <div
       className="current-marker-container"
-      onClick={(props, marker, e) => {
-        
-      }}
+      onClick={(props, marker, e) => {}}
     >
       {props.text}
     </div>
