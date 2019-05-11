@@ -1,9 +1,10 @@
 import React, { Component } from "react";
-import GoogleMapReact from "google-map-react";
+import GoogleMapReact, { InfoWindow } from "google-map-react";
 import { getRestaurants } from "../controllers/index";
 import RestaurantList from "./RestaurantList/restaurantList";
 import ToolBar from "./Toolbar";
 import Marker from "./Markers";
+import RestaurantInfo from "./InfoWindow/InfoWindow";
 // import { Restaurant } from "../interfaces";
 
 // class App extends Component {
@@ -23,7 +24,10 @@ class Map extends Component {
     viewingPos: {
       lat: undefined,
       lng: undefined
-    }
+    },
+    showingInfoWindow: false,
+    selectedRestaurant: {},
+    activeMarker: {}
   };
 
   getCurrentPos = () => {
@@ -40,7 +44,7 @@ class Map extends Component {
     this.setState({
       currentPos: newPostion,
       viewingPos: newPostion,
-      defaultZoom: 17
+      defaultZoom: 16
     });
     getRestaurants(newPostion, 1000).then((data: any) => {
       const { next_page_token, results } = data.data;
@@ -64,41 +68,59 @@ class Map extends Component {
     });
   };
 
-  onChildPress = () => {};
+  onChildPress = restaurant => () => {
+    console.log(restaurant);
+    this.setState({
+      selectedRestaurant: restaurant,
+      showingInfoWindow: true
+    });
+  };
+
+  onListItemClick = restaurant => {
+    const { lat, lng } = restaurant.geometry.location;
+    this.setState({ viewingPos: { lat, lng } });
+  };
 
   onChildEnter = () => {};
 
   onChildLeave = () => {};
 
+  onChildClose = () => {
+    if (this.state.showingInfoWindow) {
+      this.setState({
+        showingInfoWindow: false
+      });
+    }
+  };
+
   componentDidMount() {
     this.getCurrentPos();
   }
 
-  componentDidUpdate(prevProps, prevState) {
-    // if (prevState.viewingPos !== this.state.viewingPos) {
-    //   getRestaurants(this.state.viewingPos, 1000).then((data: any) => {
-    //     const { next_page_token, results } = data.data;
-    //     console.log(results);
-    //     this.setState({ restaurants: results });
-    //   });
-    // }
-  }
-
   render() {
-    const { currentPos, defaultZoom, restaurants } = this.state;
+    const {
+      currentPos,
+      viewingPos,
+      defaultZoom,
+      restaurants,
+      showingInfoWindow,
+      activeMarker,
+      selectedRestaurant
+    } = this.state;
     return (
       <div style={{ height: "100vh", width: "100%" }}>
         <GoogleMapReact
           bootstrapURLKeys={{ key: process.env.REACT_APP_GOOGLE_API_KEY }}
-          center={currentPos}
+          center={viewingPos}
           zoom={defaultZoom}
           yesIWantToUseGoogleMapApiInternals={true}
           onBoundsChange={this.onBoundsChange}
+          hoverDistance={30}
         >
           <Marker.CurrentMarker
             lat={currentPos.lat}
             lng={currentPos.lng}
-            text="My Marker"
+            text="ME"
           />
           {restaurants && restaurants.length > 0
             ? restaurants.map((restaurant, index) => {
@@ -106,15 +128,25 @@ class Map extends Component {
                   <Marker.ResturantMarker
                     lat={restaurant.geometry.location.lat}
                     lng={restaurant.geometry.location.lng}
-                    text={restaurant.name}
                     key={`${index}`}
+                    restaurant={restaurant}
+                    index={index}
+                    onChildPress={this.onChildPress(restaurant)}
                   />
                 );
               })
             : null}
         </GoogleMapReact>
+        <RestaurantInfo
+          onClose={this.onChildClose}
+          restaurant={selectedRestaurant}
+          showingInfoWindow={showingInfoWindow}
+        />
         {restaurants && restaurants.length > 0 ? (
-          <RestaurantList restaurants={restaurants} />
+          <RestaurantList
+            restaurants={restaurants}
+            onItemClick={this.onListItemClick}
+          />
         ) : null}
         <ToolBar />
       </div>

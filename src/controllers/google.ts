@@ -17,4 +17,22 @@ const getRestaurants = ({ lat, lng }: { lat: number; lng: number }, radius) => {
     });
 };
 
-export { getRestaurants };
+const getRestaurantDetail = placeid => {
+  // https://maps.googleapis.com/maps/api/place/details/json?placeid=ChIJN1t_tDeuEmsRUsoyG83frY4&fields=name,rating,formatted_phone_number&key=YOUR_API_KEY
+  console.log(placeid);
+  const url = `https://cors-anywhere.herokuapp.com/https://maps.googleapis.com/maps/api/place/details/json?placeid=${placeid}&key=${
+    process.env.REACT_APP_GOOGLE_API_KEY
+  }`;
+
+  return axios
+    .get(url)
+    .then(data => {
+      return data;
+    })
+    .catch(error => {
+      console.log(error);
+      alert("Network Error while fetching restaurant data");
+    });
+};
+
+export { getRestaurants, getRestaurantDetail };

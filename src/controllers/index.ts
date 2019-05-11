@@ -1,3 +1,3 @@
-import { getRestaurants } from "./google";
+import { getRestaurants, getRestaurantDetail } from "./google";
 
-export { getRestaurants };
+export { getRestaurants, getRestaurantDetail };

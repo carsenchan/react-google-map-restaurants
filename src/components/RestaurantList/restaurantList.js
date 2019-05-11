@@ -8,8 +8,12 @@ export default class RestaurantList extends Component {
         {this.props.restaurants && this.props.restaurants.length > 0
           ? this.props.restaurants.map((restaurant, index) => {
               return (
-                <div className="listItem" key={`${index}`}>
-                  {restaurant.name}
+                <div
+                  className="listItem"
+                  key={`${index}`}
+                  onClick={() => this.props.onItemClick(restaurant)}
+                >
+                  {`${index + 1}. ${restaurant.name}`}
                 </div>
               );
             })
